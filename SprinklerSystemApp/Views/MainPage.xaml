@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SprinklerSystemApp.Views.MainPage"
+             xmlns:helpers ="clr-namespace:SprinklerSystemApp.Helpers"
+             xmlns:viewModels="clr-namespace:SprinklerSystemApp.ViewModels"
+             xmlns:models="clr-namespace:SprinklerSystemApp.Models">
+
+
+    <Grid BackgroundColor="Transparent">
+        <ActivityIndicator IsRunning="{Binding IsBusy}" HeightRequest="50" WidthRequest="50"/>
+    
+        <StackLayout Margin="10">
+        
+            <Label Text="Raspberry Pi Address: " Margin="0,10,0,10"/>
+            <Entry Placeholder="Rasberry Pi Adress(localhost:0000)" 
+               Text="{Binding SprinklerBackendUrl}"
+               IsEnabled="{Binding IsNotBusy}"
+               VerticalTextAlignment="End"
+               Keyboard="Default"
+               IsTextPredictionEnabled="False"
+               IsSpellCheckEnabled="False"
+               ReturnCommand="{Binding CheckUrlCommand}"/>
+
+            <Label Text="Sprinkler On Times: " Margin="0,10,0,10"/>
+            <Label  Text="Add Times Using the Plus Button" Margin="0,10,0,10" HorizontalOptions="Center" TextColor="{AppThemeBinding Dark={StaticResource Gray400}, Light={StaticResource Gray300}}" IsVisible="{Binding DoesNotHaveOnTimes}"/>
+            <ListView  SeparatorVisibility="None" SelectionMode="None" VerticalOptions="Start" Margin="0,10,0,10" Background="{StaticResource Gray400}" ItemsSource="{Binding SprinklerOnTimes}" IsVisible="{Binding HasOnTimes}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <!--<ViewCell Height="100">
+                            
+                                <Grid RowDefinitions="1.5*,*,*"  HeightRequest="100">
+
+                                    <DatePicker Margin="0,5,0,5" Grid.Row="0" TextColor="Orange" Date="{Binding Day}" MinimumDate="{x:Static helpers:DateTimeHelpers.MinimumDate}" MaximumDate="{x:Static helpers:DateTimeHelpers.MaximumDate}"/>
+
+                                    <TimePicker Margin="0,5,0,5" Grid.Row="1" TextColor="Orange" Time="{Binding BegTime}"/>
+                                    <TimePicker Margin="0,5,0,5" Grid.Row="2" TextColor="Orange" Time="{Binding EndTime}"/>
+
+                                </Grid>
+                            
+                            
+                            
+                        </ViewCell>-->
+                        <ViewCell >
+                            <Grid Margin="0" >
+                                
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <DatePicker Margin="10,0,0,0" Grid.Column="0" Date="{Binding Day, Source={RelativeSource AncestorType={x:Type models:SprinklerTimeSpan}}}" MinimumDate="{x:Static helpers:DateTimeHelpers.MinimumDate}" MaximumDate="{x:Static helpers:DateTimeHelpers.MaximumDate}"/>
+
+                                <TimePicker Margin="10,0,0,0" Time="{Binding BegTime, Source={RelativeSource AncestorType={x:Type models:SprinklerTimeSpan}}}" Grid.Row="0" Grid.Column="1" />
+                                <TimePicker Margin="10,0,0,0" Time="{Binding EndTime, Source={RelativeSource AncestorType={x:Type models:SprinklerTimeSpan}}}" Grid.Row="0" Grid.Column="2" />
+                                <Button Command="{Binding RemoveSprinklerOnCommand, Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}}"
+                                        VerticalOptions="Center"
+                                        HorizontalOptions="Center"
+                                        Grid.Column="3"
+                                        BackgroundColor="Transparent"
+                                        CommandParameter="{Binding Id, Source={RelativeSource AncestorType={x:Type models:SprinklerTimeSpan}}}">
+                                    <Button.ImageSource>
+                                        <FontImageSource
+                                            
+                                            FontFamily="IconFontTypes"
+                                            Glyph="{x:Static helpers:IconFont.ArrowRight}"
+                                            Color="White"/>
+                                    </Button.ImageSource>
+                                </Button>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <Button HorizontalOptions="FillAndExpand" Command="{Binding AddSprinklerOnCommand}">
+                <Button.ImageSource>
+                    <FontImageSource 
+                        FontFamily="IconFontTypes"
+                        Glyph="{x:Static helpers:IconFont.Plus}"
+                        Color="Black"/>
+                </Button.ImageSource>
+            </Button>
+            
+            
+           
+
+            <Grid RowDefinitions="*,*">
+                
+                
+            </Grid>
+            
+
+
+
+
+        </StackLayout>
+    </Grid>
+
+</ContentPage>
