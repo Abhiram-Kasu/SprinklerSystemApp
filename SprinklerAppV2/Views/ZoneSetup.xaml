@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:helpers="clr-namespace:SprinklerAppV2.Helpers"
+             xmlns:models="clr-namespace:SprinklerAppV2.Models"
+             xmlns:viewmodels="clr-namespace:SprinklerAppV2.ViewModels"
+             x:Class="SprinklerAppV2.Views.ZoneSetup"
+             Title="Zone Setup">
+
+    <ScrollView Margin="10">
+        <VerticalStackLayout Spacing="10">
+            <Label Text="Welcome!" FontSize="Large"/>
+            <Label Text="Congifure all of your zones here:" TextColor="Gray" FontSize="Subtitle"/>
+
+            <ListView MinimumHeightRequest="50" ItemsSource="{Binding Zones}">
+                
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Zone">
+                        <ViewCell>
+                            <Grid ColumnDefinitions="3*,3*, 1*">
+                                <Entry Text="{Binding Name}" Placeholder="Name" Grid.Column="0"/>
+                                <Entry Text="{Binding ZoneId}" Placeholder="Zone Number" Keyboard="Numeric" Grid.Column="1"/>
+                                <Button Grid.Column="2"
+                                        AutomationId="{Binding Id}"
+                                        BackgroundColor="Transparent"
+                                        Clicked="RemoveButton_Clicked">
+                                    
+                                    <Button.ImageSource>
+                                        <FontImageSource
+                                            
+                                            FontFamily="IconFontTypes"
+                                            Glyph="{x:Static helpers:IconFont.ExitToApp}"
+                                            Color="Red"/>
+                                    </Button.ImageSource>
+                                </Button>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <Button IsEnabled="{Binding IsNotBusy}"  Command="{Binding AddZoneCommand, Source={RelativeSource AncestorType={x:Type viewmodels:ZoneSetupViewModel}}}">
+                <Button.ImageSource>
+                    <FontImageSource 
+                        FontFamily="IconFontTypes"
+                        Glyph="{x:Static helpers:IconFont.Plus}"
+                        Color="Black"/>
+                </Button.ImageSource>
+            </Button>
+            <Button Command="{Binding GoToNextPageCommand}" Text="Done"/>
+
+        </VerticalStackLayout>
+
+    </ScrollView>
+    
+</ContentPage>

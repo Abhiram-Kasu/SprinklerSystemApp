@@ -13,6 +13,7 @@ namespace SprinklerSystemApp.Models
         public TimeSpan BegTime { get; set; }
         public TimeSpan EndTime { get; set; }
         public bool IsValid => BegTime.CompareTo(EndTime) < 0;
-        
+        public int Zone { get; set; }
+
     }
 }
